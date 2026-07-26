@@ -5,13 +5,13 @@
     "emailSummary": {
       "activeFlareWeeks": 0,
       "confirmedFlareWeeks": 4,
-      "latestActiveMdp99Percent": NaN,
+      "latestActiveMdp99Percent": 2477.645788533328,
       "latestConfirmedFlareActive": true,
       "latestFlareActive": false,
-      "latestMdp99Percent": NaN,
-      "latestPotentialFlarePoint": false,
-      "latestPotentialMdp99Percent": NaN,
-      "potentialPoints": 0
+      "latestMdp99Percent": 2477.645788533328,
+      "latestPotentialFlarePoint": true,
+      "latestPotentialMdp99Percent": 2477.645788533328,
+      "potentialPoints": 7
     },
     "fluxScale": 807.9943557445388,
     "lastProcessedBinCount": 495,
@@ -3909,7 +3909,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 6.29e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.09e-07,
       "mjd": 60318.00001157408
     },
@@ -3917,7 +3917,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 6.24e-08,
-      "flare": false,
+      "flare": true,
       "flux": 2.78e-07,
       "mjd": 60339.00001157408
     },
@@ -3965,7 +3965,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 3.88e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.12e-07,
       "mjd": 60409.00001157408
     },

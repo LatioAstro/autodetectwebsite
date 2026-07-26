@@ -5,13 +5,13 @@
     "emailSummary": {
       "activeFlareWeeks": 0,
       "confirmedFlareWeeks": 0,
-      "latestActiveMdp99Percent": NaN,
+      "latestActiveMdp99Percent": 312.218362950523,
       "latestConfirmedFlareActive": false,
       "latestFlareActive": false,
-      "latestMdp99Percent": NaN,
-      "latestPotentialFlarePoint": false,
-      "latestPotentialMdp99Percent": NaN,
-      "potentialPoints": 0
+      "latestMdp99Percent": 312.218362950523,
+      "latestPotentialFlarePoint": true,
+      "latestPotentialMdp99Percent": 312.218362950523,
+      "potentialPoints": 8
     },
     "fluxScale": 3130.386778089377,
     "lastProcessedBinCount": 390,
@@ -2991,7 +2991,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 5.21e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.46e-07,
       "mjd": 60402.00001157408
     },
@@ -3031,7 +3031,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 4.23e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.32e-07,
       "mjd": 60458.00001157408
     },
@@ -3055,7 +3055,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 8e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.77e-07,
       "mjd": 60486.00001157408
     },
@@ -3071,7 +3071,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 7.92e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.43e-07,
       "mjd": 60549.00001157408
     },
@@ -3111,7 +3111,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 7.92e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.65e-07,
       "mjd": 60605.00001157408
     },
@@ -3143,7 +3143,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 6.64e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.69e-07,
       "mjd": 60696.00001157408
     },
@@ -3159,7 +3159,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 7.02e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.71e-07,
       "mjd": 60710.00001157408
     },
@@ -3167,7 +3167,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 8.15e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.51e-07,
       "mjd": 60724.00001157408
     },

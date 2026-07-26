@@ -5,19 +5,19 @@
     "emailSummary": {
       "activeFlareWeeks": 0,
       "confirmedFlareWeeks": 1,
-      "latestActiveMdp99Percent": NaN,
+      "latestActiveMdp99Percent": 4964.271424362263,
       "latestConfirmedFlareActive": true,
       "latestFlareActive": false,
-      "latestMdp99Percent": NaN,
-      "latestPotentialFlarePoint": false,
-      "latestPotentialMdp99Percent": NaN,
-      "potentialPoints": 0
+      "latestMdp99Percent": 4964.271424362263,
+      "latestPotentialFlarePoint": true,
+      "latestPotentialMdp99Percent": 4964.271424362263,
+      "potentialPoints": 11
     },
     "fluxScale": 337.5698790419265,
     "lastProcessedBinCount": 794,
     "lastProcessedMjd": 60850.00001157408,
-    "potentialStreak": 0,
-    "potentialStreakStartMjd": NaN
+    "potentialStreak": 1,
+    "potentialStreakStartMjd": 60850.00001157408
   },
   "background": 1.1545988564167724e-07,
   "flareIntervals": [
@@ -6427,7 +6427,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 2.54e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.24e-07,
       "mjd": 60647.00001157408
     },
@@ -6435,7 +6435,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 3.57e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.52e-07,
       "mjd": 60654.00001157408
     },
@@ -6443,7 +6443,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 4.31e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.89e-07,
       "mjd": 60661.00001157408
     },
@@ -6451,7 +6451,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 3.24e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.2e-07,
       "mjd": 60675.00001157408
     },
@@ -6459,7 +6459,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 2.52e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.74e-07,
       "mjd": 60682.00001157408
     },
@@ -6467,7 +6467,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 2.83e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.96e-07,
       "mjd": 60689.00001157408
     },
@@ -6531,7 +6531,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 3.42e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.34e-07,
       "mjd": 60745.00001157408
     },
@@ -6555,7 +6555,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 3.22e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.45e-07,
       "mjd": 60766.00001157408
     },
@@ -6563,7 +6563,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 3.27e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.72e-07,
       "mjd": 60773.00001157408
     },
@@ -6651,7 +6651,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 3.56e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.33e-07,
       "mjd": 60850.00001157408
     }

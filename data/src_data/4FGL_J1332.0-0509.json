@@ -5,13 +5,13 @@
     "emailSummary": {
       "activeFlareWeeks": 0,
       "confirmedFlareWeeks": 0,
-      "latestActiveMdp99Percent": NaN,
+      "latestActiveMdp99Percent": 998.9989200613113,
       "latestConfirmedFlareActive": false,
       "latestFlareActive": false,
-      "latestMdp99Percent": NaN,
-      "latestPotentialFlarePoint": false,
-      "latestPotentialMdp99Percent": NaN,
-      "potentialPoints": 0
+      "latestMdp99Percent": 998.9989200613113,
+      "latestPotentialFlarePoint": true,
+      "latestPotentialMdp99Percent": 998.9989200613113,
+      "potentialPoints": 5
     },
     "fluxScale": 789.0296561436389,
     "lastProcessedBinCount": 372,
@@ -2849,7 +2849,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 5.6e-08,
-      "flare": false,
+      "flare": true,
       "flux": 2.46e-07,
       "mjd": 60017.00001157408
     },
@@ -2873,7 +2873,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 5.93e-08,
-      "flare": false,
+      "flare": true,
       "flux": 2.48e-07,
       "mjd": 60045.00001157408
     },
@@ -2881,7 +2881,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 6.99e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.84e-07,
       "mjd": 60052.00001157408
     },
@@ -2889,7 +2889,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 5.61e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.49e-07,
       "mjd": 60094.00001157408
     },
@@ -3041,7 +3041,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 7.79e-08,
-      "flare": false,
+      "flare": true,
       "flux": 2.83e-07,
       "mjd": 60808.00001157408
     },
