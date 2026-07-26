@@ -2,6 +2,17 @@
   "_scanState": {
     "confirmedActive": false,
     "confirmedStartMjd": NaN,
+    "emailSummary": {
+      "activeFlareWeeks": 0,
+      "confirmedFlareWeeks": 4,
+      "latestActiveMdp99Percent": NaN,
+      "latestConfirmedFlareActive": true,
+      "latestFlareActive": false,
+      "latestMdp99Percent": NaN,
+      "latestPotentialFlarePoint": false,
+      "latestPotentialMdp99Percent": NaN,
+      "potentialPoints": 0
+    },
     "fluxScale": 807.9943557445388,
     "lastProcessedBinCount": 495,
     "lastProcessedMjd": 60843.00001157408,
