@@ -8,7 +8,7 @@
     "potentialStreak": 0,
     "potentialStreakStartMjd": NaN
   },
-  "background": 1.2867992945326278e-07,
+  "background": 5.0669166666666667e-08,
   "flareIntervals": [
     {
       "end": 54886.00001157408,
@@ -5180,65 +5180,65 @@
     },
     {
       "3CountMethod": false,
-      "RiseMethod": false,
+      "RiseMethod": true,
       "error": 5.13e-08,
-      "flare": false,
+      "flare": true,
       "flux": 2.08e-07,
       "mjd": 60395.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": false,
+      "RiseMethod": true,
       "error": 3.69e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.34e-07,
       "mjd": 60402.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": false,
+      "RiseMethod": true,
       "error": 2.48e-08,
-      "flare": false,
+      "flare": true,
       "flux": 5.93e-08,
       "mjd": 60409.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": false,
+      "RiseMethod": true,
       "error": 2.4e-08,
-      "flare": false,
+      "flare": true,
       "flux": 5.68e-08,
       "mjd": 60416.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": false,
+      "RiseMethod": true,
       "error": 3.58e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.19e-07,
       "mjd": 60423.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": false,
+      "RiseMethod": true,
       "error": 2.99e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.24e-07,
       "mjd": 60430.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": false,
+      "RiseMethod": true,
       "error": 5.19e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.89e-07,
       "mjd": 60437.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": false,
+      "RiseMethod": true,
       "error": 4.33e-08,
-      "flare": false,
+      "flare": true,
       "flux": 7.24e-08,
       "mjd": 60444.00001157408
     },
@@ -5300,5 +5300,5 @@
     }
   ],
   "source": "4FGL J2056.2-4714",
-  "threshold": 1.2867992945326278e-07
+  "threshold": 5.0669166666666667e-08
 }

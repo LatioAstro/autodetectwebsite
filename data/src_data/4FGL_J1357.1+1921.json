@@ -8,7 +8,7 @@
     "potentialStreak": 0,
     "potentialStreakStartMjd": NaN
   },
-  "background": 7.150588235294117e-08,
+  "background": NaN,
   "flareIntervals": [
     {
       "end": 55089.00001157408,
@@ -966,5 +966,5 @@
     }
   ],
   "source": "4FGL J1357.1+1921",
-  "threshold": 7.150588235294117e-08
+  "threshold": NaN
 }
