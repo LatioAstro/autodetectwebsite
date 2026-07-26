@@ -8,7 +8,7 @@
     "potentialStreak": 0,
     "potentialStreakStartMjd": NaN
   },
-  "background": 1.4196363636363637e-07,
+  "background": 1.674e-07,
   "flareIntervals": [
     {
       "end": 58547.00001157408,
@@ -1906,9 +1906,9 @@
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 4.3e-08,
-      "flare": true,
+      "flare": false,
       "flux": 1.56e-07,
       "mjd": 60836.00001157408
     },
@@ -1922,5 +1922,5 @@
     }
   ],
   "source": "4FGL J2211.2-1325",
-  "threshold": 4.258909090909091e-07
+  "threshold": 1.674e-07
 }

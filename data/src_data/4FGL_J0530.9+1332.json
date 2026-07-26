@@ -1384,7 +1384,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 1.71e-07,
-      "flare": true,
+      "flare": false,
       "flux": 3.34e-07,
       "mjd": 60311.00001157408
     },
@@ -1534,5 +1534,5 @@
     }
   ],
   "source": "4FGL J0530.9+1332",
-  "threshold": 2.5968144230769234e-07
+  "threshold": 8.656048076923078e-08
 }

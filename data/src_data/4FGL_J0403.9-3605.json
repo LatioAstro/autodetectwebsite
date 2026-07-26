@@ -8,7 +8,7 @@
     "potentialStreak": 0,
     "potentialStreakStartMjd": NaN
   },
-  "background": 6.32769230769231e-08,
+  "background": 1.846012176560122e-07,
   "flareIntervals": [
     {
       "end": 54858.00001157408,
@@ -5336,33 +5336,33 @@
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 3.54e-08,
-      "flare": true,
+      "flare": false,
       "flux": 1.44e-07,
       "mjd": 60451.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 3.1e-08,
-      "flare": true,
+      "flare": false,
       "flux": 8.38e-08,
       "mjd": 60458.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 3.07e-08,
-      "flare": true,
+      "flare": false,
       "flux": 8.66e-08,
       "mjd": 60465.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 3.13e-08,
-      "flare": true,
+      "flare": false,
       "flux": 1.23e-07,
       "mjd": 60472.00001157408
     },
@@ -5488,33 +5488,33 @@
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 3.01e-08,
-      "flare": true,
+      "flare": false,
       "flux": 2.14e-07,
       "mjd": 60724.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 3.83e-08,
-      "flare": true,
+      "flare": false,
       "flux": 2.06e-07,
       "mjd": 60731.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 4.85e-08,
-      "flare": true,
+      "flare": false,
       "flux": 1.57e-07,
       "mjd": 60738.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 6.6e-08,
-      "flare": true,
+      "flare": false,
       "flux": 1.51e-07,
       "mjd": 60745.00001157408
     },
@@ -5568,5 +5568,5 @@
     }
   ],
   "source": "4FGL J0403.9-3605",
-  "threshold": 1.898307692307693e-07
+  "threshold": 1.846012176560122e-07
 }

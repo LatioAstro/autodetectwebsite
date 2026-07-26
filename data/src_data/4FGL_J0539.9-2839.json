@@ -2967,7 +2967,7 @@
       "mjd": 60199.00001157408
     },
     {
-      "3CountMethod": true,
+      "3CountMethod": false,
       "RiseMethod": true,
       "error": 5.97e-08,
       "flare": true,
@@ -3192,5 +3192,5 @@
     }
   ],
   "source": "4FGL J0539.9-2839",
-  "threshold": 2.4629228323699425e-07
+  "threshold": 8.209742774566475e-08
 }
