@@ -1,25 +1,25 @@
 {
   "_scanState": {
-    "confirmedActive": true,
-    "confirmedStartMjd": 60850.00001157408,
+    "confirmedActive": false,
+    "confirmedStartMjd": NaN,
     "emailSummary": {
       "activeFlareWeeks": 0,
-      "confirmedFlareWeeks": 22,
-      "latestActiveMdp99Percent": 1499.565354448057,
+      "confirmedFlareWeeks": 15,
+      "latestActiveMdp99Percent": 1760.090518868633,
       "latestConfirmedFlareActive": true,
       "latestFlareActive": false,
-      "latestMdp99Percent": 1499.565354448057,
+      "latestMdp99Percent": 1760.090518868633,
       "latestPotentialFlarePoint": true,
-      "latestPotentialMdp99Percent": 1499.565354448057,
-      "potentialPoints": 25
+      "latestPotentialMdp99Percent": 1760.090518868633,
+      "potentialPoints": 20
     },
     "fluxScale": 251.01191373272616,
     "lastProcessedBinCount": 822,
     "lastProcessedMjd": 60850.00001157408,
-    "potentialStreak": 2,
-    "potentialStreakStartMjd": 60843.00001157408
+    "potentialStreak": 1,
+    "potentialStreakStartMjd": 60850.00001157408
   },
-  "background": 2.732857142857143e-07,
+  "background": 4.960416458852868e-07,
   "flareIntervals": [
     {
       "end": 56090.00001157408,
@@ -6557,15 +6557,15 @@
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 5.74e-08,
-      "flare": true,
+      "flare": false,
       "flux": 3.76e-07,
       "mjd": 60710.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 6.94e-08,
       "flare": true,
       "flux": 5.22e-07,
@@ -6573,7 +6573,7 @@
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 7.57e-08,
       "flare": true,
       "flux": 5.14e-07,
@@ -6581,7 +6581,7 @@
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 8.24e-08,
       "flare": true,
       "flux": 5.55e-07,
@@ -6621,15 +6621,15 @@
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 5.76e-08,
-      "flare": true,
+      "flare": false,
       "flux": 4.53e-07,
       "mjd": 60766.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 7.06e-08,
       "flare": true,
       "flux": 6.48e-07,
@@ -6647,7 +6647,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 5.26e-08,
-      "flare": true,
+      "flare": false,
       "flux": 4.07e-07,
       "mjd": 60787.00001157408
     },
@@ -6695,7 +6695,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 4.62e-08,
-      "flare": true,
+      "flare": false,
       "flux": 2.75e-07,
       "mjd": 60829.00001157408
     },
@@ -6711,13 +6711,13 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 4.56e-08,
-      "flare": true,
+      "flare": false,
       "flux": 3.43e-07,
       "mjd": 60843.00001157408
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 5.3e-08,
       "flare": true,
       "flux": 5.2e-07,
@@ -6725,5 +6725,5 @@
     }
   ],
   "source": "4FGL J2232.6+1143",
-  "threshold": 2.732857142857143e-07
+  "threshold": 4.960416458852868e-07
 }
