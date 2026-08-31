@@ -2,13 +2,24 @@
   "_scanState": {
     "confirmedActive": false,
     "confirmedStartMjd": NaN,
+    "emailSummary": {
+      "activeFlareWeeks": 0,
+      "confirmedFlareWeeks": 0,
+      "latestActiveMdp99Percent": NaN,
+      "latestConfirmedFlareActive": false,
+      "latestFlareActive": false,
+      "latestMdp99Percent": NaN,
+      "latestPotentialFlarePoint": false,
+      "latestPotentialMdp99Percent": NaN,
+      "potentialPoints": 0
+    },
     "fluxScale": 652.6485678484161,
     "lastProcessedBinCount": 373,
     "lastProcessedMjd": 60633.00001157408,
     "potentialStreak": 0,
     "potentialStreakStartMjd": NaN
   },
-  "background": 1.376379603399434e-07,
+  "background": 1.3763796033994338e-07,
   "flareIntervals": [
     {
       "end": 55355.00001157408,
@@ -3080,5 +3091,5 @@
     }
   ],
   "source": "4FGL J2147.3-7536",
-  "threshold": 1.376379603399434e-07
+  "threshold": 1.3763796033994338e-07
 }

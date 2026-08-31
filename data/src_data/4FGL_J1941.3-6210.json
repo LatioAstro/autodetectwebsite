@@ -2,11 +2,22 @@
   "_scanState": {
     "confirmedActive": false,
     "confirmedStartMjd": NaN,
+    "emailSummary": {
+      "activeFlareWeeks": 0,
+      "confirmedFlareWeeks": 0,
+      "latestActiveMdp99Percent": 1214.6014819645434,
+      "latestConfirmedFlareActive": false,
+      "latestFlareActive": false,
+      "latestMdp99Percent": 1214.6014819645434,
+      "latestPotentialFlarePoint": true,
+      "latestPotentialMdp99Percent": 1214.6014819645434,
+      "potentialPoints": 8
+    },
     "fluxScale": 1032.951123467865,
     "lastProcessedBinCount": 502,
     "lastProcessedMjd": 60843.00001157408,
-    "potentialStreak": 0,
-    "potentialStreakStartMjd": NaN
+    "potentialStreak": 1,
+    "potentialStreakStartMjd": 60843.00001157408
   },
   "background": 9.473210084033614e-08,
   "flareIntervals": [
@@ -4012,7 +4023,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 4.24e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.1e-07,
       "mjd": 60192.00001157408
     },
@@ -4028,7 +4039,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 7.67e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.68e-07,
       "mjd": 60311.00001157408
     },
@@ -4036,7 +4047,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 1.17e-07,
-      "flare": false,
+      "flare": true,
       "flux": 2.33e-07,
       "mjd": 60318.00001157408
     },
@@ -4068,7 +4079,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 8.8e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.56e-07,
       "mjd": 60479.00001157408
     },
@@ -4076,7 +4087,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 7.04e-08,
-      "flare": false,
+      "flare": true,
       "flux": 1.2e-07,
       "mjd": 60514.00001157408
     },
@@ -4172,7 +4183,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 1.09e-07,
-      "flare": false,
+      "flare": true,
       "flux": 1.76e-07,
       "mjd": 60843.00001157408
     }
