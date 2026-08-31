@@ -18,8 +18,13 @@ export type LightCurveData = {
     flareIntervals?: LightCurveInterval[];
     confirmedFlareIntervals?: LightCurveInterval[];
     flareMdpLabels?: MdpLabel[];
+    fluxScale?: number | null;
+    _scanState?: { fluxScale?: number | null } | null;
     points: LightCurvePoint[];
 };
+
+// COSI energy band used to convert LAT photon flux into COSI-scaled counts.
+const COSI_ENERGY_RANGE_LABEL = "0.2\u20135 MeV";
 
 type LightCurveProps = {
     data: LightCurveData;
@@ -233,8 +238,12 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
     const [showHighlightedIntervals, setShowHighlightedIntervals] = useState(true);
     const [showMdpLabels, setShowMdpLabels] = useState(false);
     const [showGrid, setShowGrid] = useState(true);
+    const [showCosiScale, setShowCosiScale] = useState(false);
     const [mjdRangeMinInput, setMjdRangeMinInput] = useState("");
     const [mjdRangeMaxInput, setMjdRangeMaxInput] = useState("");
+
+    const fluxScale = toFiniteNumber(data._scanState?.fluxScale) ?? toFiniteNumber(data.fluxScale);
+    const scaleFactor = showCosiScale && fluxScale !== null ? fluxScale : 1;
 
     const points = (data.points ?? [])
         .map(normalizedPoint)
@@ -279,15 +288,15 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
             : points.filter((point) => point.mjd >= effectiveRangeMin && point.mjd <= effectiveRangeMax);
 
     const mjd = pointsInRange.map((point) => point.mjd);
-    const flux = pointsInRange.map((point) => point.flux);
-    const allFlux = points.map((point) => point.flux);
+    const flux = pointsInRange.map((point) => point.flux * scaleFactor);
+    const allFlux = points.map((point) => point.flux * scaleFactor);
     const errors = pointsInRange.map((point) => point.error);
     const hasErrorBars = errors.some((value) => value !== null);
-    const errorArray = errors.map((value) => value ?? 0);
+    const errorArray = errors.map((value) => (value ?? 0) * scaleFactor);
 
     const flarePoints = pointsInRange.filter((point) => point.potentialFlare);
     const flareMjd = flarePoints.map((point) => point.mjd);
-    const flareFlux = flarePoints.map((point) => point.flux);
+    const flareFlux = flarePoints.map((point) => point.flux * scaleFactor);
 
     const intervalCandidates = [
         ...(data.flareIntervals ?? []),
@@ -368,12 +377,14 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                       (entry): entry is { x0: number; x1: number; mdp99: number | null } => entry !== null,
                   );
 
-    const quiescentBackground =
+    const quiescentBackgroundRaw =
         toFiniteNumber(data.quiescentBackground) ??
         toFiniteNumber(data.quiescent_background) ??
         toFiniteNumber(data.background);
+    const quiescentBackground = quiescentBackgroundRaw === null ? null : quiescentBackgroundRaw * scaleFactor;
 
-    const flareThreshold = toFiniteNumber(data.flareThreshold) ?? toFiniteNumber(data.flare_threshold);
+    const flareThresholdRaw = toFiniteNumber(data.flareThreshold) ?? toFiniteNumber(data.flare_threshold);
+    const flareThreshold = flareThresholdRaw === null ? null : flareThresholdRaw * scaleFactor;
 
     const fluxForScale = flux.length > 0 ? flux : allFlux;
     const yValuesForScale =
@@ -395,7 +406,16 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
         return match?.mdp99 ?? null;
     };
 
-    const weeklyHoverText = pointsInRange.map((point) => buildPointHoverList(point, mdpAtMjd(point.mjd)));
+    const weeklyHoverText = pointsInRange.map((point) =>
+        buildPointHoverList(
+            {
+                ...point,
+                flux: point.flux * scaleFactor,
+                error: point.error === null ? null : point.error * scaleFactor,
+            },
+            mdpAtMjd(point.mjd),
+        ),
+    );
 
     return (
         <div className={className}>
@@ -498,6 +518,15 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                                 onChange={(event) => setShowGrid(event.target.checked)}
                             />
                             Show grid
+                        </label>
+                        <label className="flex items-center gap-2">
+                            <input
+                                type="checkbox"
+                                checked={showCosiScale}
+                                disabled={fluxScale === null}
+                                onChange={(event) => setShowCosiScale(event.target.checked)}
+                            />
+                            Show COSI scaled flux
                         </label>
                     </div>
                 </aside>
@@ -621,7 +650,9 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                             },
                             yaxis: {
                                 title: {
-                                    text: "Photon Flux (ph cm<sup>-2</sup> s<sup>-1</sup>)",
+                                    text: showCosiScale
+                                        ? `COSI Photon Flux (ph cm<sup>-2</sup> s<sup>-1</sup>) [${COSI_ENERGY_RANGE_LABEL}]`
+                                        : "Photon Flux (ph cm<sup>-2</sup> s<sup>-1</sup>)",
                                     standoff: 18,
                                     font: {
                                         family: "'Avenir Next', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",

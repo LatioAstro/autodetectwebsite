@@ -1,7 +1,7 @@
 {
   "_scanState": {
-    "confirmedActive": true,
-    "confirmedStartMjd": 60731.00001157408,
+    "confirmedActive": false,
+    "confirmedStartMjd": NaN,
     "fluxScale": 1387.7642150398417,
     "lastProcessedBinCount": 117,
     "lastProcessedMjd": 60731.00001157408,
@@ -958,13 +958,13 @@
     },
     {
       "3CountMethod": false,
-      "RiseMethod": true,
+      "RiseMethod": false,
       "error": 5.8e-08,
-      "flare": true,
+      "flare": false,
       "flux": 2.03e-07,
       "mjd": 60731.00001157408
     }
   ],
   "source": "4FGL J1357.1+1921",
-  "threshold": 2.145176470588235e-07
+  "threshold": 7.150588235294117e-08
 }
