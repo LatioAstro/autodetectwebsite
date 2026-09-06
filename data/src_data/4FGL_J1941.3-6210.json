@@ -4095,7 +4095,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 2.64e-07,
-      "flare": false,
+      "flare": true,
       "flux": 6.84e-07,
       "mjd": 60528.00001157408
     },
@@ -4143,7 +4143,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 1.68e-07,
-      "flare": false,
+      "flare": true,
       "flux": 3.76e-07,
       "mjd": 60682.00001157408
     },

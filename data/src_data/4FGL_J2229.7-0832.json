@@ -3917,7 +3917,7 @@
       "3CountMethod": false,
       "RiseMethod": false,
       "error": 6.24e-08,
-      "flare": false,
+      "flare": true,
       "flux": 2.78e-07,
       "mjd": 60339.00001157408
     },
