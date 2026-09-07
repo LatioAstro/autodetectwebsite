@@ -231,14 +231,13 @@ function clipIntervalToRange(
 }
 
 export default function LightCurve({ data, title, className }: LightCurveProps) {
-    const [showErrorBars, setShowErrorBars] = useState(true);
     const [showDashedBackground, setShowDashedBackground] = useState(true);
     const [showDashedThreshold, setShowDashedThreshold] = useState(true);
     const [showPotentialFlarePoints, setShowPotentialFlarePoints] = useState(true);
     const [showHighlightedIntervals, setShowHighlightedIntervals] = useState(true);
     const [showMdpLabels, setShowMdpLabels] = useState(false);
     const [showGrid, setShowGrid] = useState(true);
-    const [showCosiScale, setShowCosiScale] = useState(false);
+    const [showCosiScale, setShowCosiScale] = useState(true);
     const [mjdRangeMinInput, setMjdRangeMinInput] = useState("");
     const [mjdRangeMaxInput, setMjdRangeMaxInput] = useState("");
 
@@ -466,14 +465,6 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                         <label className="flex items-center gap-2">
                             <input
                                 type="checkbox"
-                                checked={showErrorBars}
-                                onChange={(event) => setShowErrorBars(event.target.checked)}
-                            />
-                            Show error bars
-                        </label>
-                        <label className="flex items-center gap-2">
-                            <input
-                                type="checkbox"
                                 checked={showDashedBackground}
                                 onChange={(event) => setShowDashedBackground(event.target.checked)}
                             />
@@ -519,15 +510,6 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                             />
                             Show grid
                         </label>
-                        <label className="flex items-center gap-2">
-                            <input
-                                type="checkbox"
-                                checked={showCosiScale}
-                                disabled={fluxScale === null}
-                                onChange={(event) => setShowCosiScale(event.target.checked)}
-                            />
-                            Show COSI scaled flux
-                        </label>
                     </div>
                 </aside>
 
@@ -546,7 +528,7 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                                 error_y: {
                                     type: "data",
                                     array: errorArray,
-                                    visible: showErrorBars && hasErrorBars,
+                                    visible: hasErrorBars,
                                     color: "#808080",
                                     thickness: 1,
                                     width: 2,
