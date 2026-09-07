@@ -16,7 +16,7 @@ export default function AlertListPage() {
         </h1>
         <p className="mt-5 text-lg leading-8 text-zinc-600 dark:text-zinc-300">
           Users can sign up for weekly alerts for potential sources through contacting Garrett Latiolais via Slack
-          or through email.
+          or through email, or through the Google Forms link <a href="https://docs.google.com/forms/d/e/1FAIpQLSf4kC6VIFV9vtOTjVgkYln4v13tNGlStMYN9-fYPiYIX_iciA/viewform?usp=publish-editor" className="text-cyan-700 dark:text-cyan-400 underline">here </a>.
         </p>
       </div>
     </main>
