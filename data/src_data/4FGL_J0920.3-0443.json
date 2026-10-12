@@ -20,6 +20,37 @@
     "potentialStreakStartMjd": NaN
   },
   "background": 6.858e-08,
+  "consecutiveIntervals": [
+    {
+      "end": 55481.00001157408,
+      "label": "MDP99: 327.50%",
+      "mdp99": 327.49633614623,
+      "start": 55096.00001157408
+    },
+    {
+      "end": 57056.00001157408,
+      "label": "MDP99: 244.91%",
+      "mdp99": 244.9092923654059,
+      "start": 56993.00001157408
+    },
+    {
+      "end": 58050.00001157408,
+      "label": "MDP99: 187.13%",
+      "mdp99": 187.13256627867568,
+      "start": 57672.00001157408
+    },
+    {
+      "end": 59870.00001157408,
+      "label": "MDP99: 252.13%",
+      "mdp99": 252.12563360257474,
+      "start": 59618.00001157408
+    }
+  ],
+  "energyRange": {
+    "max": 100000,
+    "min": 100,
+    "unit": "MeV"
+  },
   "flareIntervals": [
     {
       "end": 55481.00001157408,
@@ -46,6 +77,8 @@
       "start": 59618.00001157408
     }
   ],
+  "fluxUnit": "ph cm^-2 s^-1",
+  "instrument": "Fermi-LAT",
   "points": [
     {
       "3CountMethod": false,
@@ -552,6 +585,7 @@
       "mjd": 60801.00001157408
     }
   ],
+  "riseIntervals": [],
   "source": "4FGL J0920.3-0443",
   "threshold": 6.858e-08
 }
