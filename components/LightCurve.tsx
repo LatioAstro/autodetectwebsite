@@ -15,16 +15,43 @@ export type LightCurveData = {
     quiescent_background?: number | null;
     flareThreshold?: number | null;
     flare_threshold?: number | null;
+    threshold?: number | null;
     flareIntervals?: LightCurveInterval[];
     confirmedFlareIntervals?: LightCurveInterval[];
     flareMdpLabels?: MdpLabel[];
     fluxScale?: number | null;
     _scanState?: { fluxScale?: number | null } | null;
+    instrument?: string | null;
+    energyRange?: { min?: number | null; max?: number | null; unit?: string | null } | null;
+    fluxUnit?: string | null;
     points: LightCurvePoint[];
 };
 
-// COSI energy band used to convert LAT photon flux into COSI-scaled counts.
-const COSI_ENERGY_RANGE_LABEL = "0.2\u20135 MeV";
+type EnergyRange = { min: number; max: number; unit: string };
+
+// COSI energy band used to convert LAT photon flux into COSI-scaled flux.
+const COSI_ENERGY_RANGE: EnergyRange = { min: 0.2, max: 5, unit: "MeV" };
+const FERMI_ENERGY_RANGE: EnergyRange = { min: 100, max: 100000, unit: "MeV" };
+const DEFAULT_FLUX_UNIT = "ph cm^-2 s^-1";
+
+function parseEnergyRange(value: LightCurveData["energyRange"], fallback: EnergyRange): EnergyRange {
+    const min = toFiniteNumber(value?.min);
+    const max = toFiniteNumber(value?.max);
+    const unit = typeof value?.unit === "string" && value.unit.trim() ? value.unit.trim() : null;
+    return min !== null && max !== null && unit !== null ? { min, max, unit } : fallback;
+}
+
+function formatEnergyRange({ min, max, unit }: EnergyRange): string {
+    if (unit === "MeV" && max >= 1000) {
+        return `${min} MeV - ${max / 1000} GeV`;
+    }
+    return `${min} - ${max} ${unit}`;
+}
+
+function formatFluxUnit(unit: string | null | undefined): string {
+    const text = typeof unit === "string" && unit.trim() ? unit.trim() : DEFAULT_FLUX_UNIT;
+    return text.replace(/\^(-?\d+)/g, "<sup>$1</sup>");
+}
 
 type LightCurveProps = {
     data: LightCurveData;
@@ -67,6 +94,8 @@ function normalizedPoint(raw: LightCurvePoint) {
         raw.flare ?? raw.potentialFlarePoint ?? raw.potential_flare_point ?? raw.highlight,
     );
 
+    const riseFlare = toBoolean(raw.RiseMethod ?? raw.riseMethod ?? raw.confirmed_flare_active);
+
     if (mjd === null || flux === null) {
         return null;
     }
@@ -76,6 +105,7 @@ function normalizedPoint(raw: LightCurvePoint) {
         flux,
         error,
         potentialFlare,
+        riseFlare,
     };
 }
 
@@ -165,6 +195,20 @@ function getMdpLabelFromInterval(interval: LightCurveInterval): [number, number,
     return [Math.min(start, end), Math.max(start, end), mdp];
 }
 
+function mergeIntervals(intervals: Array<[number, number]>): Array<[number, number]> {
+    const sorted = [...intervals].sort((a, b) => a[0] - b[0]);
+    const merged: Array<[number, number]> = [];
+    for (const [start, end] of sorted) {
+        const last = merged[merged.length - 1];
+        if (last && start <= last[1]) {
+            last[1] = Math.max(last[1], end);
+        } else {
+            merged.push([start, end]);
+        }
+    }
+    return merged;
+}
+
 function deriveIntervalsFromPotentialFlarePoints(
     points: Array<{ mjd: number; potentialFlare: boolean }>,
 ): Array<[number, number]> {
@@ -237,12 +281,26 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
     const [showHighlightedIntervals, setShowHighlightedIntervals] = useState(true);
     const [showMdpLabels, setShowMdpLabels] = useState(false);
     const [showGrid, setShowGrid] = useState(true);
+    const [yRange, setYRange] = useState<[number, number] | null>(null);
+    const [dragMode, setDragMode] = useState<"zoom" | "pan">("zoom");
     const [showCosiScale, setShowCosiScale] = useState(true);
     const [mjdRangeMinInput, setMjdRangeMinInput] = useState("");
     const [mjdRangeMaxInput, setMjdRangeMaxInput] = useState("");
 
     const fluxScale = toFiniteNumber(data._scanState?.fluxScale) ?? toFiniteNumber(data.fluxScale);
-    const scaleFactor = showCosiScale && fluxScale !== null ? fluxScale : 1;
+    const isCosiNative = typeof data.instrument === "string" && data.instrument.trim().toLowerCase() === "cosi";
+    // Native COSI data is already in COSI units, so only non-COSI files can be scaled.
+    const canScaleToCosi = !isCosiNative && fluxScale !== null;
+    const useCosiScale = canScaleToCosi && showCosiScale;
+    const scaleFactor = useCosiScale && fluxScale !== null ? fluxScale : 1;
+
+    const dataEnergyRange = parseEnergyRange(
+        data.energyRange,
+        isCosiNative ? COSI_ENERGY_RANGE : FERMI_ENERGY_RANGE,
+    );
+    const yAxisLabel = `${isCosiNative || useCosiScale ? "COSI " : ""}Photon Flux (${formatFluxUnit(
+        data.fluxUnit,
+    )}) [${formatEnergyRange(useCosiScale ? COSI_ENERGY_RANGE : dataEnergyRange)}]`;
 
     const points = (data.points ?? [])
         .map(normalizedPoint)
@@ -271,6 +329,11 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
     const rangeMaxRaw =
         datasetMaxMjd === null ? null : parsedInputMax === null ? datasetMaxMjd : parsedInputMax;
 
+    const viewRange: [number, number] | undefined =
+        rangeMinRaw === null || rangeMaxRaw === null
+            ? undefined
+            : [Math.min(rangeMinRaw, rangeMaxRaw), Math.max(rangeMinRaw, rangeMaxRaw)];
+
     const effectiveRangeMin =
         datasetMinMjd === null || datasetMaxMjd === null || rangeMinRaw === null || rangeMaxRaw === null
             ? null
@@ -286,14 +349,21 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
             ? points
             : points.filter((point) => point.mjd >= effectiveRangeMin && point.mjd <= effectiveRangeMax);
 
-    const mjd = pointsInRange.map((point) => point.mjd);
-    const flux = pointsInRange.map((point) => point.flux * scaleFactor);
+    const mjd = points.map((point) => point.mjd);
+    const lineSpanMjd =
+        datasetMinMjd !== null && datasetMaxMjd !== null ? Math.max(datasetMaxMjd - datasetMinMjd, 1) : 1;
+    const lineX =
+        datasetMinMjd !== null && datasetMaxMjd !== null
+            ? [datasetMinMjd - lineSpanMjd * 1000, datasetMaxMjd + lineSpanMjd * 1000]
+            : [];
+    const flux = points.map((point) => point.flux * scaleFactor);
+    const visibleFlux = pointsInRange.map((point) => point.flux * scaleFactor);
     const allFlux = points.map((point) => point.flux * scaleFactor);
-    const errors = pointsInRange.map((point) => point.error);
+    const errors = points.map((point) => point.error);
     const hasErrorBars = errors.some((value) => value !== null);
     const errorArray = errors.map((value) => (value ?? 0) * scaleFactor);
 
-    const flarePoints = pointsInRange.filter((point) => point.potentialFlare);
+    const flarePoints = points.filter((point) => point.potentialFlare);
     const flareMjd = flarePoints.map((point) => point.mjd);
     const flareFlux = flarePoints.map((point) => point.flux * scaleFactor);
 
@@ -306,8 +376,14 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
         .map(getIntervalBounds)
         .filter((interval): interval is [number, number] => interval !== null);
 
+    const riseIntervals = deriveIntervalsFromPotentialFlarePoints(
+        points.map((point) => ({ mjd: point.mjd, potentialFlare: point.riseFlare })),
+    );
+
     const baseIntervals =
-        intervalsFromJson.length > 0 ? intervalsFromJson : deriveIntervalsFromPotentialFlarePoints(points);
+        intervalsFromJson.length > 0 || riseIntervals.length > 0
+            ? mergeIntervals([...intervalsFromJson, ...riseIntervals])
+            : deriveIntervalsFromPotentialFlarePoints(points);
 
     const intervals =
         effectiveRangeMin === null || effectiveRangeMax === null
@@ -382,10 +458,13 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
         toFiniteNumber(data.background);
     const quiescentBackground = quiescentBackgroundRaw === null ? null : quiescentBackgroundRaw * scaleFactor;
 
-    const flareThresholdRaw = toFiniteNumber(data.flareThreshold) ?? toFiniteNumber(data.flare_threshold);
+    const flareThresholdRaw =
+        toFiniteNumber(data.flareThreshold) ??
+        toFiniteNumber(data.flare_threshold) ??
+        toFiniteNumber(data.threshold);
     const flareThreshold = flareThresholdRaw === null ? null : flareThresholdRaw * scaleFactor;
 
-    const fluxForScale = flux.length > 0 ? flux : allFlux;
+    const fluxForScale = visibleFlux.length > 0 ? visibleFlux : allFlux;
     const yValuesForScale =
         fluxForScale.length > 0
             ? [...fluxForScale, ...(quiescentBackground !== null ? [quiescentBackground] : [])]
@@ -405,7 +484,7 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
         return match?.mdp99 ?? null;
     };
 
-    const weeklyHoverText = pointsInRange.map((point) =>
+    const weeklyHoverText = points.map((point) =>
         buildPointHoverList(
             {
                 ...point,
@@ -422,6 +501,31 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                 <aside className="mb-4 w-full rounded-md border border-zinc-200 bg-zinc-50 p-4 text-sm lg:absolute lg:left-0 lg:top-0 lg:mb-0 lg:w-72 lg:-translate-x-[calc(100%+1rem)] dark:border-zinc-800 dark:bg-zinc-950">
                     <h2 className="mb-3 text-base font-semibold text-zinc-900 dark:text-zinc-100">Plot Options</h2>
                     <div className="space-y-2 text-zinc-700 dark:text-zinc-300">
+                        {canScaleToCosi ? (
+                            <div className="space-y-1 rounded border border-zinc-200 bg-white p-2 dark:border-zinc-700 dark:bg-zinc-900">
+                                <div className="text-xs font-medium uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
+                                    Flux
+                                </div>
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        name="flux-type"
+                                        checked={useCosiScale}
+                                        onChange={() => setShowCosiScale(true)}
+                                    />
+                                    COSI flux (scaled)
+                                </label>
+                                <label className="flex items-center gap-2">
+                                    <input
+                                        type="radio"
+                                        name="flux-type"
+                                        checked={!useCosiScale}
+                                        onChange={() => setShowCosiScale(false)}
+                                    />
+                                    Fermi flux
+                                </label>
+                            </div>
+                        ) : null}
                         <div className="space-y-2 rounded border border-zinc-200 bg-white p-2 dark:border-zinc-700 dark:bg-zinc-900">
                             <div className="text-xs font-medium uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
                                 MJD range
@@ -456,6 +560,7 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                                         setMjdRangeMinInput(datasetMinMjd.toFixed(5));
                                         setMjdRangeMaxInput(datasetMaxMjd.toFixed(5));
                                     }
+                                    setYRange(null);
                                 }}
                                 className="w-full rounded border border-zinc-300 bg-zinc-100 px-2 py-1 text-xs text-zinc-800 hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-60 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-200 dark:hover:bg-zinc-700"
                             >
@@ -468,7 +573,7 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                                 checked={showDashedBackground}
                                 onChange={(event) => setShowDashedBackground(event.target.checked)}
                             />
-                            Show dashed background line
+                            Show background line
                         </label>
                         <label className="flex items-center gap-2">
                             <input
@@ -476,7 +581,7 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                                 checked={showDashedThreshold}
                                 onChange={(event) => setShowDashedThreshold(event.target.checked)}
                             />
-                            Show dashed threshold line
+                            Show threshold line
                         </label>
                         <label className="flex items-center gap-2">
                             <input
@@ -566,12 +671,12 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                             ...(showDashedBackground && quiescentBackground !== null
                                 ? [
                                       {
-                                          x: mjd,
-                                          y: mjd.map(() => quiescentBackground),
+                                          x: lineX,
+                                          y: lineX.map(() => quiescentBackground),
                                           type: "scatter",
                                           mode: "lines",
                                           name: "Quiescent background",
-                                          line: { color: "#1f77b4", width: 1.8, dash: "dash" },
+                                          line: { color: "#56B4E9", width: 4, dash: "solid" },
                                           hoverinfo: "skip",
                                       },
                                   ]
@@ -579,19 +684,19 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                             ...(showDashedThreshold && flareThreshold !== null
                                 ? [
                                       {
-                                          x: mjd,
-                                          y: mjd.map(() => flareThreshold),
+                                          x: lineX,
+                                          y: lineX.map(() => flareThreshold),
                                           type: "scatter",
                                           mode: "lines",
                                           name: "Flare threshold",
-                                          opacity: 0.55,
-                                          line: { color: "#ff7f0e", width: 1.4, dash: "dash" },
-                                                                                    hoverinfo: "skip",
+                                          line: { color: "#4B1A7A", width: 2.5, dash: "dot" },
+                                          hoverinfo: "skip",
                                       },
                                   ]
                                 : []),
                         ]}
                         layout={{
+                            dragmode: dragMode,
                             title: {
                                 text: plotTitle,
                                 x: 0.5,
@@ -623,18 +728,11 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                                 gridcolor: "rgba(0,0,0,0.25)",
                                 gridwidth: 1,
                                 tickfont: { color: "#111111" },
-                                minallowed: effectiveRangeMin ?? undefined,
-                                maxallowed: effectiveRangeMax ?? undefined,
-                                range:
-                                    effectiveRangeMin !== null && effectiveRangeMax !== null
-                                        ? [effectiveRangeMin, effectiveRangeMax]
-                                        : undefined,
+                                range: viewRange,
                             },
                             yaxis: {
                                 title: {
-                                    text: showCosiScale
-                                        ? `COSI Photon Flux (ph cm<sup>-2</sup> s<sup>-1</sup>) [${COSI_ENERGY_RANGE_LABEL}]`
-                                        : "Photon Flux (ph cm<sup>-2</sup> s<sup>-1</sup>)",
+                                    text: yAxisLabel,
                                     standoff: 18,
                                     font: {
                                         family: "'Avenir Next', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
@@ -651,8 +749,7 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                                 gridcolor: "rgba(0,0,0,0.25)",
                                 gridwidth: 1,
                                 tickfont: { color: "#111111" },
-                                minallowed: yMin,
-                                maxallowed: yMax,
+                                range: yRange ?? undefined,
                             },
                             legend: {
                                 x: 0.01,
@@ -702,7 +799,43 @@ export default function LightCurve({ data, title, className }: LightCurveProps) 
                                   }))
                                 : [],
                         }}
-                        config={{ responsive: true, displaylogo: false }}
+                        onRelayout={(event) => {
+                            const e = event as Record<string, unknown>;
+                            if (e.dragmode === "zoom" || e.dragmode === "pan") {
+                                setDragMode(e.dragmode);
+                            }
+                            const yLo = toFiniteNumber(e["yaxis.range[0]"]);
+                            const yHi = toFiniteNumber(e["yaxis.range[1]"]);
+                            if (yLo !== null && yHi !== null) {
+                                setYRange([yLo, yHi]);
+                            } else if (e["yaxis.autorange"] === true || e["xaxis.autorange"] === true) {
+                                setYRange(null);
+                            }
+                            if (e["xaxis.autorange"] === true) {
+                                if (datasetMinMjd !== null && datasetMaxMjd !== null) {
+                                    setMjdRangeMinInput(datasetMinMjd.toFixed(5));
+                                    setMjdRangeMaxInput(datasetMaxMjd.toFixed(5));
+                                }
+                                return;
+                            }
+                            const rangeArray = e["xaxis.range"];
+                            const lo = toFiniteNumber(
+                                e["xaxis.range[0]"] ?? (Array.isArray(rangeArray) ? rangeArray[0] : undefined),
+                            );
+                            const hi = toFiniteNumber(
+                                e["xaxis.range[1]"] ?? (Array.isArray(rangeArray) ? rangeArray[1] : undefined),
+                            );
+                            if (lo !== null && hi !== null) {
+                                setMjdRangeMinInput(Math.min(lo, hi).toFixed(5));
+                                setMjdRangeMaxInput(Math.max(lo, hi).toFixed(5));
+                            }
+                        }}
+                        config={{
+                            responsive: true,
+                            displaylogo: false,
+                            scrollZoom: true,
+                            modeBarButtons: [["zoom2d", "pan2d"], ["autoScale2d"]],
+                        }}
                         style={{ width: "100%", height: "620px" }}
                     />
                 </div>
